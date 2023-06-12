@@ -1,7 +1,7 @@
 <div class="card  mb-3" style="max-width: 18rem;">
     <div class="card-header ">
 
-        <a class="nav-link" href="#"> {{$property->title}}</a>
+        <a class="nav-link " href="#"> {{$property->title}}</a>
     </div>
     <div class="card-body">
         <h5 class="card-title">{{$property->adress}}</h5>
