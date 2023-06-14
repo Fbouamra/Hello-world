@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\OptionController;
 use Illuminate\Support\Facades\Route;
@@ -15,17 +16,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/', [\App\Http\Controllers\HomeController::class,'index']);
 Route::get('/biens', [\App\Http\Controllers\PropertyController::class,'index'])->name('property.biens');
 Route::get('/miniature', [\App\Http\Controllers\PropertyController::class,'miniatures'])->name('property.miniature');
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function(){
     Route::resource('property',PropertyController::class)->except('show');
     Route::resource('option',OptionController::class)->except('show');
     Route::match(['get', 'post'], 'deleteall', [PropertyController::class, 'deleteAllProperties']);
 });
-Route::get('login',[\App\Http\Controllers\AuthController::class,'loginform'])
-    ->middleware('guest')
-    ->name('login');
-Route::post('logon',[\App\Http\Controllers\AuthController::class,'logincheck'])->name('logincheck');
-Route::post('logout',[\App\Http\Controllers\AuthController::class,'logout'])->name('logout');
+
+
+require __DIR__.'/auth.php';
+
