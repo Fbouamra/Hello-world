@@ -7,7 +7,7 @@
     </div>
 
     <div class="mt-5">
-        <form class="vstack gap-2" action="{{route('admin.property.store')}}" method="post">
+        <form class="vstack gap-2" action="{{route('admin.property.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-md-6">
@@ -82,6 +82,36 @@
                 </div>
 
             </div>
+
+            <div class="row">
+                <div class="col-md-6 ">
+                    <label for="options" class="form-label">Options</label>
+                    <select name="options[]" id="options" class="form-control" multiple>
+                        @foreach($options as $id=>$name)
+                            <option value="{{$id}}"{{(collect(old('options')))->contains($id) ? 'selected' : ''}}>{{$name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-6 form-control-file">
+                    <div class="form-group">
+                        <label for="photo">Ajouter la photo</label>
+                        <input type="file" class="form-control" id="photo" name="photo" value="{{old('photo')}}">
+                        @error('photo')
+                        {{$message}}
+                        @enderror
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 pt-2 pb-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="sold" name="sold" value="1" {{ old('sold') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="sold">Vendu?</label>
+                    </div>
+                </div>
+
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <label for="price" class="form-label">Price</label>
@@ -95,24 +125,6 @@
 
             </div>
 
-            <div class="row">
-                <div class="col-md-4 pt-2 pb-2">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="sold" name="sold" value="1" {{ old('sold') ? 'checked' : '' }}>
-                        <label class="form-check-label" for="sold">Vendu</label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 ">
-                    <label for="options" class="form-label">Options</label>
-                    <select name="options[]" id="options" class="form-control" multiple>
-                        @foreach($options as $id=>$name)
-                            <option value="{{$id}}"{{(collect(old('options')))->contains($id) ? 'selected' : ''}}>{{$name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-md-4 ">
                     <button type="submit" class="btn btn-primary">Enregitrer</button>
