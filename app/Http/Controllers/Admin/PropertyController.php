@@ -34,19 +34,16 @@ class PropertyController extends Controller
      */
     public function store(PropertyResquest $request)
     {
-        $imageName = time().'.'.$request->photo->extension();
 
-        $path_image=$request->photo->store('blog','public');
-       //$path_image=$request->photo->storeAs('blog', $imageName);
-        $path_image = $request->photo->storeAs('blog', $imageName, 'public');
+        if (isset($request->sold)) {
+            $property=Property::create($request->all());
 
-        if (!isset($request->sold)) {
+
+        }else{
             $request->merge(['sold' => false]);
+            $property=Property::create($request->all());
 
         }
-        $property=Property::create($request->all());
-        $property->photo = $path_image;
-        $property->save();
         // Sync the selected options with the property
         $options = $request->input('options', []);
         $property->options()->sync($options);
@@ -85,11 +82,6 @@ class PropertyController extends Controller
         //flashMessage('success', 'Property updated successfully');
 
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-
 
     /**
      * Remove the specified resource from storage.

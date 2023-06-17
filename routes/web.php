@@ -21,9 +21,7 @@ Route::get('/', function () {
 });
 Route::get('/', [\App\Http\Controllers\HomeController::class,'index']);
 Route::get('/biens', [\App\Http\Controllers\PropertyController::class,'index'])->name('property.biens');
-Route::get('/property/{property}',[\App\Http\Controllers\PropertyController::class,'show'])->name('property.show');
 Route::get('/miniature', [\App\Http\Controllers\PropertyController::class,'miniatures'])->name('property.miniature');
-Route::post('/Property/contact/{property}/',[App\Http\Controllers\PropertyController::class,'contact'])->name('property.contact');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

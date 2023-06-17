@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactFormRequest;
 use App\Http\Requests\PropertyFilterRequest;
-use App\Mail\ContactPropertyMail;
 use App\Models\Property;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class PropertyController extends Controller
 {
@@ -68,10 +65,11 @@ class PropertyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Property $property)
+    public function show(string $id)
     {
-        return view('property.show',compact('property'));
+        //
     }
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -94,11 +92,5 @@ class PropertyController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function contact(Property $property,ContactFormRequest $request){
-
-       Mail::send(new ContactPropertyMail($property,$request->validated()));
-       return back()->with('success','Votre email a été bien envoyé');
     }
 }

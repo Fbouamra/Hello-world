@@ -22,19 +22,17 @@ class PropertyResquest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'adress' => 'required',
-            'descreption' => 'required',
-            'surface' => 'required|numeric',
-            'rooms' => 'required|numeric',
-            'bedrooms' => 'required|numeric',
-            'floor' => 'required|numeric',
-            'options' => 'required|array',
-            'photo' => 'required|image',
-            'sold' => 'boolean',
-            'price' => 'required|numeric'
+            'title'=>'required|max:90',
+            'descreption'=>'required|min:15',
+            'adress'=>'required',
+            'surface'=>'required|integer',
+            'rooms'=>'required|integer',
+            'bedrooms'=>'required|integer',
+            'floor'=>'required|integer',
+            'price'=>'required',
+            'sold'=>'boolean',
+            'options'=>'array',
+            'options.*'=>'exists:options,id'
         ];
-
-
-}}
-
+    }
+}
